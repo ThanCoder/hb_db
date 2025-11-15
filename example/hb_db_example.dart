@@ -1,0 +1,129 @@
+import 'dart:io';
+
+import 'package:hb_db/hb_db.dart';
+
+void main() async {
+  try {
+    // final db = HBDB.getInstance();
+    // await db.open('test.db');
+    // await db.open('/home/than/Documents/apyar.db');
+    print(
+      'saved: - ${await HBDB.extractCoverToFile(File('၂၁ရာစုအင်မော်တယ် ဖေဖေ.db'), savePath: 'cover.png')}',
+    );
+
+    // db.setAdapter<User>(UserAdapter());
+    // db.setAdapter<Car>(CarAdapter());
+
+    // print(db.getUniqueFieldIdList);
+    // db.readAllSourceStream().listen((data) {
+    //   print(data['title']);
+    // });
+
+    // print('lastId: ${db.getLastId}');
+    // print('cover data: ${db.getCoverData}');
+    // print('deletedSize: ${db.getDeletedSize.getSizeLabel()}');
+
+    // await db.close();
+  } catch (e) {
+    print('[error]: ${e.toString()}');
+  }
+}
+
+class UserBoxListener implements HBBoxListener {
+  @override
+  void onHBBoxChanged(HBBoxListenerType type, int? autoId) {
+    print('[User Box] Type: $type - autoId: $autoId');
+  }
+}
+
+class CarBoxListener implements HBBoxListener {
+  @override
+  void onHBBoxChanged(HBBoxListenerType type, int? autoId) {
+    print('[Car Box] Type: $type - autoId: $autoId');
+  }
+}
+
+// listener
+class DBListener implements HBListener {
+  @override
+  void onHBDBChanged(HBListenerType type, int? adapterFieldId, int? autoId) {
+    print(
+      '[DB] Type: $type - adapterFieldId: $adapterFieldId - autoId: $autoId',
+    );
+  }
+}
+
+///
+/// ### [`autoId`] database auto generated
+///
+
+class User {
+  final String name;
+  final int autoId; // [`autoId`] database auto generated
+
+  User({required this.name, this.autoId = 0});
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{'name': name, 'autoId': autoId};
+  }
+
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(name: map['name'] as String, autoId: map['autoId'] as int);
+  }
+  @override
+  String toString() {
+    return name;
+  }
+}
+
+class UserAdapter extends HBAdapter<User> {
+  @override
+  int getUniqueFieldId() {
+    return 1;
+  }
+
+  @override
+  User fromMap(Map<String, dynamic> map) {
+    return User.fromMap(map);
+  }
+
+  @override
+  Map<String, dynamic> toMap(User value) {
+    return value.toMap();
+  }
+}
+
+class Car {
+  final int autoId; // database auto create
+  final String name;
+  Car({this.autoId = 0, required this.name});
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{'autoId': autoId, 'name': name};
+  }
+
+  factory Car.fromMap(Map<String, dynamic> map) {
+    return Car(autoId: map['autoId'] as int, name: map['name'] as String);
+  }
+  @override
+  String toString() {
+    return name;
+  }
+}
+
+class CarAdapter extends HBAdapter<Car> {
+  @override
+  Car fromMap(Map<String, dynamic> map) {
+    return Car.fromMap(map);
+  }
+
+  @override
+  int getUniqueFieldId() {
+    return 2;
+  }
+
+  @override
+  Map<String, dynamic> toMap(Car value) {
+    return value.toMap();
+  }
+}

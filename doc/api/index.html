@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="hb_db API docs, for the Dart programming language.">
+  <title>hb_db - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li class="self-crumb">hb_db package</li>
+  </ol>
+  <div class="self-name">hb_db</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="hbdb--hybrid-binary-database">HBDB – Hybrid Binary Database</h1>
+<hr>
+<h2 id="-introduction">📌 Introduction</h2>
+<p>HBDB is a <strong>Hybrid Binary Database</strong> for Dart/Flutter that allows you to store three main types of data inside a single ".db" file:</p>
+<ul>
+<li><strong>Map/JSON structured data</strong> using Adapters</li>
+<li><strong>Binary files</strong> (PDF, images, audio, any file)</li>
+<li><strong>Cover image (thumbnail)</strong></li>
+</ul>
+<p>It uses a <strong>custom binary format</strong> with a <strong>DB lock file</strong>, supports <strong>auto compact (clean-up)</strong>, <strong>stream reading</strong>, <strong>typed boxes</strong>, and <strong>listeners</strong> for DB changes.</p>
+<hr>
+<h2 id="-features">🚀 Features</h2>
+<ul>
+<li>Type-safe data storage using <strong>HBAdapter<t></t></strong></li>
+<li><code>add</code>, <code>update</code>, <code>delete</code>, <code>query</code>, <code>getAll</code>, <code>getAllStream</code></li>
+<li>File entry support with compression</li>
+<li>Cover image support (set, get, delete)</li>
+<li>Auto compaction of database</li>
+<li>Built-in listeners for database and box-level events</li>
+<li>Single-file database design</li>
+</ul>
+<hr>
+<h2 id="-how-to-use">🔧 How to Use</h2>
+<h3 id="1-initialize-database">1. Initialize Database</h3>
+<pre class="language-dart"><code class="language-dart">final db = HBDB.getInstance();
+await db.open('mydata.db');
+</code></pre>
+<h3 id="2-create-adapter-for-your-model">2. Create Adapter for Your Model</h3>
+<pre class="language-dart"><code class="language-dart">class User {
+  final String name;
+  final int autoId; // [`autoId`] database auto generated
+
+  User({required this.name, this.autoId = 0});
+
+  Map&lt;String, dynamic&gt; toMap() {
+    return &lt;String, dynamic&gt;{'name': name, 'autoId': autoId};
+  }
+
+  factory User.fromMap(Map&lt;String, dynamic&gt; map) {
+    return User(name: map['name'] as String, autoId: map['autoId'] as int);
+  }
+  @override
+  String toString() {
+    return name;
+  }
+}
+class UserAdapter extends HBAdapter&lt;User&gt; {
+  @override
+  int getUniqueFieldId() {
+    return 1;
+  }
+
+  @override
+  User fromMap(Map&lt;String, dynamic&gt; map) {
+    return User.fromMap(map);
+  }
+
+  @override
+  Map&lt;String, dynamic&gt; toMap(User value) {
+    return value.toMap();
+  }
+}
+</code></pre>
+<h3 id="3-register-adapter">3. Register Adapter</h3>
+<pre class="language-dart"><code class="language-dart">db.setAdapter&lt;User&gt;(UserAdapter());
+</code></pre>
+<h3 id="4-add-data">4. Add Data</h3>
+<pre class="language-dart"><code class="language-dart">final id = await db.add&lt;User&gt;(User(name: 'Than'));
+</code></pre>
+<h3 id="5-read-all">5. Read All</h3>
+<pre class="language-dart"><code class="language-dart">final users = await db.getAll&lt;User&gt;();
+</code></pre>
+<h3 id="6-update">6. Update</h3>
+<pre class="language-dart"><code class="language-dart">await db.update&lt;User&gt;(id, User(name: 'New Name'));
+</code></pre>
+<h3 id="7-delete">7. Delete</h3>
+<pre class="language-dart"><code class="language-dart">await db.delete&lt;User&gt;(id);
+</code></pre>
+<hr>
+<h2 id="box">Box</h2>
+<h3 id="create-box">Create Box</h3>
+<pre class="language-dart"><code class="language-dart">final userBox = db.getBox&lt;User&gt;();
+</code></pre>
+<h3 id="add-data">Add Data</h3>
+<pre class="language-dart"><code class="language-dart">final id = await userBox.add(User(name: 'Than'));
+</code></pre>
+<h3 id="read-all">Read All</h3>
+<pre class="language-dart"><code class="language-dart">final users = await userBox.getAll();
+</code></pre>
+<h3 id="update">Update</h3>
+<pre class="language-dart"><code class="language-dart">await userBox.update(id, User(name: 'New Name'));
+</code></pre>
+<h3 id="delete">Delete</h3>
+<pre class="language-dart"><code class="language-dart">await userBox.delete(id);
+</code></pre>
+<hr>
+<h2 id="-file-handling">📁 File Handling</h2>
+<h3 id="add-file">Add File</h3>
+<pre class="language-dart"><code class="language-dart">await db.addFile(File('test.pdf'));
+</code></pre>
+<h3 id="extract-file">Extract File</h3>
+<pre class="language-dart"><code class="language-dart">await db.extractFile('output/', entry);
+</code></pre>
+<h3 id="delete-file">Delete File</h3>
+<pre class="language-dart"><code class="language-dart">await db.deleteFile(entry);
+</code></pre>
+<hr>
+<h2 id="-cover-image">🖼 Cover Image</h2>
+<pre class="language-dart"><code class="language-dart">await db.setCover(imageBytes);
+final data = await db.getCoverData();
+await db.deleteCover();
+</code></pre>
+<hr>
+<h2 id="-auto-compact">🧹 Auto Compact</h2>
+<p>Database automatically rebuilds when deleted size or delete count exceeds limits.
+You can also manually compact:</p>
+<pre class="language-dart"><code class="language-dart">await db.compact();
+</code></pre>
+<hr>
+<h2 id="-database-stream">🔔 Database Stream</h2>
+<h3 id="stream">Stream</h3>
+<pre class="language-dart"><code class="language-dart">// DB Cast
+db.getAllStream&lt;User&gt;().listen((user) {
+  print('user: $user');
+});
+
+// Box
+userBox.getAllStream().listen((user) {
+  print('user: $user');
+});
+
+</code></pre>
+<hr>
+<h3 id="query">Query</h3>
+<pre class="language-dart"><code class="language-dart">// db
+User? user1 = await db.query&lt;User&gt;((value) =&gt; value.name == 'name');
+// box
+User? user = await userBox.query((value) =&gt; value.name == 'name');
+
+// Stream
+/// db
+db.queryStream&lt;User&gt;((value) =&gt; value.name == 'name').listen((user) {
+  print('user: $user');
+});
+/// user
+userBox.queryStream((value) =&gt; value.name == 'name').listen((user) {
+  print('user: $user');
+});
+</code></pre>
+<hr>
+<h2 id="-listeners">🔔 Listeners</h2>
+<pre class="language-dart"><code class="language-dart">class DBListener implements HBListener {
+  @override
+  void onHBDBChanged(HBListenerType type, int? adapterFieldId, int? autoId) {
+    print(
+      '[DB] Type: $type - adapterFieldId: $adapterFieldId - autoId: $autoId',
+    );
+  }
+}
+db.addListener(DBListener());
+
+</code></pre>
+<p>Type-specific box listeners:</p>
+<pre class="language-dart"><code class="language-dart">final box = db.getBox&lt;User&gt;();
+
+class UserBoxListener implements HBBoxListener {
+  @override
+  void onHBBoxChanged(HBBoxListenerType type, int? autoId) {
+    print('[User Box] Type: $type - autoId: $autoId');
+  }
+}
+
+userBox.addListener(UserBoxListener());
+
+</code></pre>
+<hr>
+<h2 id="--documentation">🇲🇲 မြန်မာဘာသာ Documentation</h2>
+<p>HBDB ကို Dart/Flutter အတွက်ရေးထားတဲ့ <strong>Hybrid Binary Database</strong> ဖြစ်ပြီး database file တစ်ခုအတွင်း</p>
+<ul>
+<li><strong>JSON/Map data</strong></li>
+<li><strong>Binary File (PDF, Image, video, zip)</strong></li>
+<li><strong>Cover image</strong></li>
+</ul>
+<p>တွေကို အကုန်ပေါင်းသိမ်းလို့ရပါတယ်။</p>
+<p>DB lock, compact, stream reading, adapter system, listeners တွေနဲ့ဆိုတော့ lightweight Hive + File system mix လိုအသုံးပြုလို့ရပါတယ်။</p>
+<hr>
+<h2 id="-feature-">🚀 Feature အကျဉ်းချုပ်</h2>
+<ul>
+<li>Adapter ဖြင့် type-safe data</li>
+<li>add/update/delete/query/getAll/getAllStream</li>
+<li>File တွေထည့်/ဖတ်/ဖြင့်နိုင်</li>
+<li>Cover image ထည့်/ဖယ်ရှားနိုင်</li>
+<li>Auto compact database clean-up</li>
+<li>Listener system included</li>
+<li>Database file တစ်ခုတည်း</li>
+</ul>
+<hr>
+<h2 id="-conclusion">📘 Conclusion</h2>
+<p>HBDB is simple, fast, compact, and flexible for apps that need mixed JSON + File storage in one database.</p>
+<hr>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="hb_db">
+  <span class="name"><a href="hb_db/">hb_db</a></span> 
+
+</dt>
+<dd>Support for doing something awesome.
+</dd>
+
+        </dl>
+      </section>
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li class="self-crumb">hb_db package</li>
+</ol>
+
+    <h5 class="hidden-xs"><span class="package-name">hb_db</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="hb_db/">hb_db</a></li>
+</ol>
+
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+</main>
+<footer>
+  <span class="no-break">
+    hb_db
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+
