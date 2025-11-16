@@ -24,7 +24,7 @@ class DBLock {
   });
 
   Future<void> load() async {
-    if (lockFile.existsSync()) {
+    if (lockFile.existsSync() && localDBLockFile) {
       // final source = await lockFile.readAsString();
       // final map = jsonDecode(source);
       final raf = await lockFile.open(mode: FileMode.read);
