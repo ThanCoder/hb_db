@@ -8,6 +8,8 @@ pubspec.lock
 apyar*
 test.*
 test*
+example/test.dart
 example/apyar/
 example/novel/
 cover.png
+dist

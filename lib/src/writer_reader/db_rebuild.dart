@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:hb_db/src/core/encoder.dart';
 import 'package:hb_db/src/core/db_lock.dart';
 import 'package:hb_db/src/types/db_meta_type.dart';
+import 'package:hb_db/src/writer_reader/binary_rw.dart';
 
 Future<void> compactBinary(
   File dbFile, {
@@ -16,9 +17,14 @@ Future<void> compactBinary(
   final outRaf = await tmpFile.open(mode: FileMode.write);
 
   // magic
-  final magicBytes = await raf.read(4);
+  final (magic, version, type) = await BinaryRW.readHeader(raf);
   // write
-  await outRaf.writeFrom(magicBytes);
+  await BinaryRW.writeHeader(
+    outRaf,
+    magic: magic,
+    version: version,
+    type: type,
+  );
 
   while (true) {
     // flag
@@ -54,8 +60,6 @@ Future<void> compactBinary(
     } else
     // file
     if (type == DBMetaType.fileTypeInt) {
-      // compress type
-      final compressType = await raf.readByte();
       // file size
       final fileLength = bytesToInt8(await raf.read(8));
 
@@ -63,7 +67,6 @@ Future<void> compactBinary(
       if (DBMetaFlag.isActive(flag)) {
         await outRaf.writeByte(flag);
         await outRaf.writeByte(type);
-        await outRaf.writeByte(compressType);
         await outRaf.writeFrom(intToBytes8(fileLength));
         // file data
         // --- Stream Copy (1MB per chunk) ---

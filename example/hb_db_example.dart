@@ -1,29 +1,50 @@
 import 'dart:io';
 
 import 'package:hb_db/hb_db.dart';
+import 'package:hb_db/src/core/internal.dart';
 
 void main() async {
   try {
-    // final db = HBDB.getInstance();
-    // await db.open('test.db');
-    // await db.open('/home/than/Documents/apyar.db');
-    print(
-      'saved: - ${await HBDB.extractCoverToFile(File('၂၁ရာစုအင်မော်တယ် ဖေဖေ.db'), savePath: 'cover.png')}',
+    final dir = Directory('dist');
+    if (!dir.existsSync()) {
+      await dir.create();
+    }
+    // final isSaved = await HBDB.extractCoverToFile(
+    //   '/home/than/projects/plugins/hb_db/dist/၂၁ရာစုအင်မော်တယ် ဖေဖေ.db',
+    //   savePath: 'cover.png',
+    //   override: true,
+    // );
+    // print('cover: $isSaved');
+
+    // final files = await HBDB.readFileEntriesFromDBFile(
+    //   '/home/than/projects/plugins/hb_db/dist/၂၁ရာစုအင်မော်တယ် ဖေဖေ.db',
+    // );
+    // print(files);
+
+    // final one = files.first;
+    // await one.extract(one.name);
+
+    final db = HBDB.getInstance();
+    await db.open(
+      '/home/than/projects/plugins/hb_db/dist/၂၁ရာစုအင်မော်တယ် ဖေဖေ.db',
     );
 
     // db.setAdapter<User>(UserAdapter());
     // db.setAdapter<Car>(CarAdapter());
 
+    // final box = db.getBox<User>();
+    // await box.addAll([User(name: 'ThanCoder'), User(name: 'Aung Aung')]);
+    // print(await box.getAll());
+
     // print(db.getUniqueFieldIdList);
-    // db.readAllSourceStream().listen((data) {
-    //   print(data['title']);
-    // });
+    db.readAllSourceStream().listen((data) {
+      print(data);
+    });
 
-    // print('lastId: ${db.getLastId}');
-    // print('cover data: ${db.getCoverData}');
-    // print('deletedSize: ${db.getDeletedSize.getSizeLabel()}');
+    print('lastId: ${db.getLastId}');
+    print('deletedSize: ${db.getDeletedSize.getSizeLabel()}');
 
-    // await db.close();
+    await db.close();
   } catch (e) {
     print('[error]: ${e.toString()}');
   }

@@ -1,4 +1,11 @@
-# 1.1.0
+# 1.2.0
+
+## Breaking Changed
+
+- Version 1.1.0 `[database].db` Not Working in Version 1.2.0.
+- Added Database `version,databaseType`
+
+## 1.1.0
 
 - Fixed `Class Not Found`
 

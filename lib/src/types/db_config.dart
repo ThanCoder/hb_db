@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class DBConfig {
   ///
   /// Rule 1: Deleted > X MB
@@ -22,14 +23,32 @@ class DBConfig {
   ///
   ///  ### Not Saving Local `.lock` file
   ///
-  final bool isMemoryDBLock;
+  final bool localDBLockFile;
+
+  ///
+  ///  ### Database Version
+  ///
+  /// default=`1`
+  ///
+  final int version;
+
+  ///
+  ///  ### Database Type
+  ///
+  /// default=`GENL` // Genral
+  ///
+  /// expected `4 bytes` Or text count `4`
+  ///
+  final String type;
 
   DBConfig({
     required this.deletedSizeLimit,
     required this.deletedRatioLimit,
     required this.deleteOpsLimit,
     required this.isAutoCompact,
-    required this.isMemoryDBLock,
+    required this.localDBLockFile,
+    required this.version,
+    required this.type,
   });
 
   factory DBConfig.defaultSetting() {
@@ -38,7 +57,9 @@ class DBConfig {
       deletedRatioLimit: 0.20,
       deleteOpsLimit: 200,
       isAutoCompact: true,
-      isMemoryDBLock: false,
+      localDBLockFile: true,
+      version: 1,
+      type: 'GENL',
     );
   }
 
@@ -47,14 +68,18 @@ class DBConfig {
     double? deletedRatioLimit,
     int? deleteOpsLimit,
     bool? isAutoCompact,
-    bool? isMemoryDBLock,
+    bool? localDBLockFile,
+    int? version,
+    String? type,
   }) {
     return DBConfig(
       deletedSizeLimit: deletedSizeLimit ?? this.deletedSizeLimit,
       deletedRatioLimit: deletedRatioLimit ?? this.deletedRatioLimit,
       deleteOpsLimit: deleteOpsLimit ?? this.deleteOpsLimit,
       isAutoCompact: isAutoCompact ?? this.isAutoCompact,
-      isMemoryDBLock: isMemoryDBLock ?? this.isMemoryDBLock,
+      localDBLockFile: localDBLockFile ?? this.localDBLockFile,
+      version: version ?? this.version,
+      type: type ?? this.type,
     );
   }
 }

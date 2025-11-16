@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:hb_db/src/core/encoder.dart';
 import 'package:hb_db/src/core/db_lock.dart';
 import 'package:hb_db/src/types/db_meta_type.dart';
+import 'package:hb_db/src/writer_reader/binary_rw.dart';
 
 ///
 /// ## get Cover Entry Binary Without `.lock`
@@ -15,16 +14,8 @@ Future<Uint8List?> readCoverFromDBFileBinary({required File dbFile}) async {
     return null;
   }
   final raf = await dbFile.open();
-
-  // magic
-  final magicBytes = await raf.read(4);
-  if (magicBytes.isEmpty) {
-    throw Exception('Not `HBDB` Database File!');
-  }
-  final magic = utf8.decode(magicBytes);
-  if (magic != dbMagic) {
-    throw Exception('Magic`$magic` Database Not Supported!');
-  }
+  // header
+  await BinaryRW.readHeader(raf);
 
   Uint8List? coverData;
 
@@ -38,36 +29,15 @@ Future<Uint8List?> readCoverFromDBFileBinary({required File dbFile}) async {
 
     // json db
     if (type == DBMetaType.jsonTypeInt) {
-      // unique field id
-      await raf.read(4);
-      // db id
-      await raf.read(8);
-      // db length
-      final length = bytesToInt4(await raf.read(4));
-      // skip db data
-      final currPos = await raf.position();
-      await raf.setPosition((currPos + length));
+      await BinaryRW.readJsonDatabase(raf, isSkipData: true);
     } else
     // file
     if (type == DBMetaType.fileTypeInt) {
-      // compress type
-      await raf.readByte();
-      // file size
-      final length = bytesToInt8(await raf.read(8));
-      // skip file data
-      final currPos = await raf.position();
-      await raf.setPosition((currPos + length));
-      // meta data
-      final metaLength = bytesToInt4(await raf.read(4));
-      await raf.read(metaLength);
+      await BinaryRW.readFileEntry(raf, isSkipData: true);
     } else
     // cover
     if (type == DBMetaType.coverTypeInt) {
-      final coverLength = bytesToInt4(await raf.read(4));
-      // final coverPos = await raf.position();
-      // set cover
-      coverData = await raf.read(coverLength);
-      // await raf.setPosition(coverPos + coverLength);
+      coverData = await BinaryRW.readCover(raf);
     }
   }
   await raf.close();
@@ -91,8 +61,7 @@ Future<Uint8List?> getCoverBinary({
   await raf.readByte();
   await raf.readByte();
 
-  final coverLength = bytesToInt4(await raf.read(4));
-  final data = await raf.read(coverLength);
+  final data = await BinaryRW.readCover(raf);
 
   await raf.close();
   return data;
@@ -120,15 +89,10 @@ Future<void> setCoverBinary(
     await raf.setPosition(endPos);
   }
 
-  // write data
-  await raf.writeByte(DBMetaFlag.activeFlag);
-  await raf.writeByte(DBMetaType.coverTypeInt);
-  // length
-  await raf.writeFrom(intToBytes4(imageData.length));
-  await raf.writeFrom(imageData);
+  final coverPos = await BinaryRW.writeCover(raf, imageData: imageData);
 
   // add memory
-  dbLock.coverOffset = endPos;
+  dbLock.coverOffset = coverPos;
   // save
   await dbLock.save();
 }

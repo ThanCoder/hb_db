@@ -1,10 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:hb_db/src/core/encoder.dart';
 import 'package:hb_db/src/types/db_entry.dart';
 import 'package:hb_db/src/types/db_meta_type.dart';
 import 'package:hb_db/src/types/dbf_entry.dart';
+import 'package:hb_db/src/writer_reader/binary_rw.dart';
 
 class DBLock {
   List<DBEntry> dbEntries = [];
@@ -39,15 +39,8 @@ class DBLock {
 
   Future<void> _rebuild() async {
     final raf = await dbFile.open();
-    // magic
-    final magicBytes = await raf.read(4);
-    if (magicBytes.isEmpty) {
-      throw Exception('Not `HBDB` Database File!');
-    }
-    final magic = utf8.decode(magicBytes);
-    if (magic != dbMagic) {
-      throw Exception('Magic`$magic` Database Not Supported!');
-    }
+    await BinaryRW.readHeader(raf);
+
     while (true) {
       // flag
       final flag = await raf.readByte();
@@ -57,49 +50,24 @@ class DBLock {
       final type = await raf.readByte();
       // json db
       if (type == DBMetaType.jsonTypeInt) {
-        // unique field id
-        final uniqueFieldId = bytesToInt4(await raf.read(4));
-        // db id
-        final id = bytesToInt8(await raf.read(8));
-        // db length
-        final length = bytesToInt4(await raf.read(4));
-        // skip db data
-        final currPos = await raf.position();
-        await raf.setPosition((currPos + length));
+        final entry = await BinaryRW.readJsonDatabase(raf);
         if (DBMetaFlag.isDeleted(flag)) {
-          deletedSize += length;
-        }
-        if (DBMetaFlag.isActive(flag)) {
-          // add lock
-          dbEntries.add(
-            DBEntry(
-              uniqueFieldId: uniqueFieldId,
-              id: id,
-              offset: currPos,
-              size: length,
-            ),
-          );
+          deletedSize += entry!.size;
+        } else {
+          //add
+          dbEntries.add(entry!);
         }
       } else
       // file
       if (type == DBMetaType.fileTypeInt) {
-        // compress type
-        await raf.readByte();
-        // file size
-        final length = bytesToInt8(await raf.read(8));
-        // skip file data
-        final currPos = await raf.position();
-        await raf.setPosition((currPos + length));
-        // meta data
-        final metaLength = bytesToInt4(await raf.read(4));
-        final meta = decodeRecordCompress4(await raf.read(metaLength));
+        final fileMeta = await BinaryRW.readFileEntry(raf);
+
         if (DBMetaFlag.isDeleted(flag)) {
-          deletedSize += length;
-        }
-        // is active
-        if (DBMetaFlag.isActive(flag)) {
-          // add lock
-          fileEntries.add(DBFEntry.fromMap(meta).copyWith(offset: currPos));
+          deletedSize += fileMeta!.isCompressed
+              ? fileMeta.compressSize
+              : fileMeta.size;
+        } else {
+          fileEntries.add(fileMeta!);
         }
       } else
       // cover

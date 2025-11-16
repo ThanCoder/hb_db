@@ -1,12 +1,12 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:hb_db/src/core/db_config.dart';
+import 'package:hb_db/src/types/db_config.dart';
 import 'package:hb_db/src/core/hb_box.dart';
 import 'package:hb_db/src/core/hbdb_listener.dart';
 import 'package:hb_db/src/core/hb_adapter.dart';
 import 'package:hb_db/src/writer_reader/bf_reader.dart';
+import 'package:hb_db/src/writer_reader/binary_rw.dart';
 import 'package:hb_db/src/writer_reader/c_writer.dart';
 import 'package:hb_db/src/writer_reader/db_reader.dart';
 import 'package:hb_db/src/writer_reader/bf_writer.dart';
@@ -49,13 +49,19 @@ class HBDB {
     _dbLock = DBLock(
       dbFile: dbFile,
       lockFile: File('$path.lock'),
-      isMemoryDBLock: _config.isMemoryDBLock,
+      isMemoryDBLock: _config.localDBLockFile,
     );
     // db raf
     _dbRaf = await dbFile.open(mode: FileMode.writeOnlyAppend);
     //db မရှိရင်
     if (_dbRaf.lengthSync() == 0) {
-      await _dbRaf.writeFrom(utf8.encode(dbMagic));
+      // write header
+      await BinaryRW.writeHeader(
+        _dbRaf,
+        magic: dbMagic,
+        version: _config.version,
+        type: _config.type,
+      );
       await _dbLock.save();
     }
     // read config
@@ -465,8 +471,8 @@ class HBDB {
   ///   - `Uint8List` (cover image bytes) if exists
   ///   - `null` if no cover entry is found
   ///
-  static Future<Uint8List?> readCoverFromDBFile(File databaseFile) async {
-    return await readCoverFromDBFileBinary(dbFile: databaseFile);
+  static Future<Uint8List?> readCoverFromDBFile(String dbFile) async {
+    return await readCoverFromDBFileBinary(dbFile: File(dbFile));
   }
 
   /// ### Save Image Data Without Opening the Database
@@ -478,11 +484,11 @@ class HBDB {
   ///
   /// Returns `true` if the image was saved, otherwise `false`.
   static Future<bool> extractCoverToFile(
-    File databaseFile, {
+    String dbFile, {
     required String savePath,
     bool override = false,
   }) async {
-    final imageData = await readCoverFromDBFileBinary(dbFile: databaseFile);
+    final imageData = await readCoverFromDBFileBinary(dbFile: File(dbFile));
     if (imageData == null) return false;
     final file = File(savePath);
     if (file.existsSync() && override) return true;
@@ -589,6 +595,18 @@ class HBDB {
     await _mabyCompact();
     // notify
     notifyListener(HBListenerType.deletedFile);
+  }
+
+  /// --- Static ---
+  ///
+
+  ///
+  /// ### Read File Entries File From DB File
+  ///
+  /// Without DB Opening
+  ///
+  static Future<List<DBFEntry>> readFileEntriesFromDBFile(String dbPath) async {
+    return await readFileEntriesFormDBFileBinary(File(dbPath));
   }
 
   ///
@@ -720,4 +738,11 @@ class HBDB {
       box.notify(HBBoxListenerType.deletedDB, autoId: autoId);
     }
   }
+
+  ///
+  /// --- Static ---
+  ///
+  // Future<DBMeta?> getMetaFromDBFile(String dbPath) async {
+  //   return null;
+  // }
 }

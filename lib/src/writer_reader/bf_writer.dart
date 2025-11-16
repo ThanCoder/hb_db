@@ -31,7 +31,6 @@ Future<void> addFileBinary(
   //wirte flag
   await raf.writeByte(DBMetaFlag.activeFlag);
   await raf.writeByte(DBMetaType.fileTypeInt);
-  await raf.writeByte(DbMetaCompressType.parseBool(isCompressed));
 
   // write files
   const chunkSize = 1024 * 1024; // 1MB
