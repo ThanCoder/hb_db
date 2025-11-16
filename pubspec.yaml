@@ -1,6 +1,6 @@
 name: hb_db
 description: HBDB is a **Hybrid Binary Database** for Dart/Flutter that allows you to store three main types of data inside a single ".db" file
-version: 1.2.2
+version: 1.2.1
 repository: https://github.com/ThanCoder/hb_db
 
 environment:

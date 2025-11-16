@@ -1,8 +1,4 @@
-# 1.2.2
-
-- Fixed Some Error.
-
-## 1.2.1
+# 1.2.1
 
 - Fixed `HBDB.readFileEntriesFromDBFile` Not Working.
 - Fixed `db.getAllFilesEntries` Not Working.
