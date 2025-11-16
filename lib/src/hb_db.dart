@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:hb_db/src/index.dart';
 import 'package:hb_db/src/types/db_config.dart';
 import 'package:hb_db/src/core/hb_box.dart';
 import 'package:hb_db/src/core/hbdb_listener.dart';
@@ -49,7 +50,7 @@ class HBDB {
     _dbLock = DBLock(
       dbFile: dbFile,
       lockFile: File('$path.lock'),
-      isMemoryDBLock: _config.localDBLockFile,
+      localDBLockFile: _config.localDBLockFile,
     );
     // db raf
     _dbRaf = await dbFile.open(mode: FileMode.writeOnlyAppend);
@@ -488,10 +489,10 @@ class HBDB {
     required String savePath,
     bool override = false,
   }) async {
+    final file = File(savePath);
+    if (file.existsSync() && !override) return true;
     final imageData = await readCoverFromDBFileBinary(dbFile: File(dbFile));
     if (imageData == null) return false;
-    final file = File(savePath);
-    if (file.existsSync() && override) return true;
     await file.writeAsBytes(imageData);
 
     return true;
@@ -653,6 +654,11 @@ class HBDB {
   }
 
   ///
+  /// ### Database Config
+  ///
+  DBConfig get getConfig => _config;
+
+  ///
   /// get last id
   ///
   int get getLastId => _dbLock.lastId;
@@ -665,7 +671,12 @@ class HBDB {
   ///
   /// get All Files
   ///
-  List<DBFEntry> get getAllFiles => _dbLock.fileEntries;
+  List<DBFEntry> get getAllFilesEntries => _dbLock.fileEntries;
+
+  ///
+  /// get All Database Entries
+  ///
+  List<DBEntry> get getDBEntries => _dbLock.dbEntries;
 
   ///
   /// ### Database is Opened

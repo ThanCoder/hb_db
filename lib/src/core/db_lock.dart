@@ -15,12 +15,12 @@ class DBLock {
   int deleteOpsCount = 0;
   final File lockFile;
   final File dbFile;
-  final bool isMemoryDBLock;
+  final bool localDBLockFile;
 
   DBLock({
     required this.dbFile,
     required this.lockFile,
-    this.isMemoryDBLock = false,
+    this.localDBLockFile = false,
   });
 
   Future<void> load() async {
@@ -39,6 +39,7 @@ class DBLock {
 
   Future<void> _rebuild() async {
     final raf = await dbFile.open();
+    // read header
     await BinaryRW.readHeader(raf);
 
     while (true) {
@@ -48,35 +49,20 @@ class DBLock {
 
       // type
       final type = await raf.readByte();
+
       // json db
       if (type == DBMetaType.jsonTypeInt) {
-        final entry = await BinaryRW.readJsonDatabase(raf);
-        if (DBMetaFlag.isDeleted(flag)) {
-          deletedSize += entry!.size;
-        } else {
-          //add
-          dbEntries.add(entry!);
-        }
+        final dbEntry = await BinaryRW.readJsonDatabase(raf, isSkipData: false);
+        dbEntries.add(dbEntry!);
       } else
       // file
       if (type == DBMetaType.fileTypeInt) {
-        final fileMeta = await BinaryRW.readFileEntry(raf);
-
-        if (DBMetaFlag.isDeleted(flag)) {
-          deletedSize += fileMeta!.isCompressed
-              ? fileMeta.compressSize
-              : fileMeta.size;
-        } else {
-          fileEntries.add(fileMeta!);
-        }
+        final meta = await BinaryRW.readFileEntry(raf);
+        fileEntries.add(meta!.copyWith(dbFile: dbFile));
       } else
       // cover
       if (type == DBMetaType.coverTypeInt) {
-        final coverLength = bytesToInt4(await raf.read(4));
-        final coverPos = await raf.position();
-        // set cover
-        coverOffset = DBMetaFlag.isActive(flag) ? coverPos : -1;
-        await raf.setPosition(coverPos + coverLength);
+        await BinaryRW.readCover(raf, isSkipData: true);
       }
     }
     await raf.close();
@@ -91,7 +77,7 @@ class DBLock {
   }
 
   Future<void> save() async {
-    if (isMemoryDBLock) return;
+    if (!localDBLockFile) return;
     final map = {
       'cover_offset': coverOffset,
       'deleteOpsCount': deleteOpsCount,

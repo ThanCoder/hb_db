@@ -1,4 +1,10 @@
-# 1.2.0
+# 1.2.1
+
+- Fixed `HBDB.readFileEntriesFromDBFile` Not Working.
+- Fixed `db.getAllFilesEntries` Not Working.
+- Fixed `HBDB Lock File Optional` Not Working.
+
+## 1.2.0
 
 ## Breaking Changed
 

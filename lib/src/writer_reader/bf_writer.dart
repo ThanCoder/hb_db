@@ -102,7 +102,6 @@ Future<void> addFileBinary(
 
   // meta json
   final entryData = encodeRecordCompress4(entry.toMap());
-
   //write entry length
   await raf.writeFrom(intToBytes4(entryData.length));
   await raf.writeFrom(entryData);

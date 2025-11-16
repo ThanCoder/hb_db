@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:hb_db/hb_db.dart';
 import 'package:hb_db/src/core/internal.dart';
+import 'package:hb_db/src/types/db_config.dart';
 
 void main() async {
   try {
@@ -27,6 +28,7 @@ void main() async {
     final db = HBDB.getInstance();
     await db.open(
       '/home/than/projects/plugins/hb_db/dist/၂၁ရာစုအင်မော်တယ် ဖေဖေ.db',
+      config: DBConfig.defaultSetting()
     );
 
     // db.setAdapter<User>(UserAdapter());

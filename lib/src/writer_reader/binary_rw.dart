@@ -105,10 +105,8 @@ class BinaryRW {
     final length = bytesToInt4(await raf.read(4));
     // skip db data
     final currPos = await raf.position();
-    if (isSkipData) {
-      await raf.setPosition((currPos + length));
-    } else {
-      // final data = decodeRecordCompress4(await raf.read(length));
+    await raf.setPosition(currPos + length);
+    if (!isSkipData) {
       return DBEntry(
         uniqueFieldId: uniqueFieldId,
         id: id,
@@ -147,6 +145,4 @@ class BinaryRW {
     }
     return null;
   }
-
- 
 }

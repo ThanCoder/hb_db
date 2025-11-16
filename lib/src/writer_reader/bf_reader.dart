@@ -94,11 +94,11 @@ Future<List<DBFEntry>> readFileEntriesFormDBFileBinary(File dbFile) async {
 
     // json db
     if (type == DBMetaType.jsonTypeInt) {
-      await BinaryRW.readJsonDatabase(raf, isSkipData: true);
+      await BinaryRW.readJsonDatabase(raf);
     } else
     // file
     if (type == DBMetaType.fileTypeInt) {
-      final meta = await BinaryRW.readFileEntry(raf, isSkipData: false);
+      final meta = await BinaryRW.readFileEntry(raf);
       list.add(meta!.copyWith(dbFile: dbFile));
     } else
     // cover
