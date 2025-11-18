@@ -1,3 +1,7 @@
+# 1.2.2
+
+- Update `Readme.md`
+
 # 1.2.1
 
 - Fixed `HBDB.readFileEntriesFromDBFile` Not Working.
