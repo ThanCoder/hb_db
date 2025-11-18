@@ -16,7 +16,7 @@ It uses a **custom binary format** with a **DB lock file**, supports **auto comp
 
 ## 🚀 Features
 
-- Type-safe data storage using **HBAdapter<T>**
+- Type-safe data storage using **HBAdapter`<T>`**
 - `add`, `update`, `delete`, `query`, `getAll`, `getAllStream`
 - File entry support with compression
 - Cover image support (set, get, delete)
@@ -106,9 +106,62 @@ await db.delete<User>(id);
 
 ---
 
-## Box
+## 📦 Box API
 
-### Create Box
+> **Note About `autoId` Field**
+>
+> Every model class used with TDB **must include an `autoId` field**.
+> This field will be automatically populated by the database during insertion.
+>
+> Example:
+>
+> ```dart
+> class User {
+>   final int autoId;     // MUST exist — TDB writes newId into this field
+>   final String name;
+>
+>   User({ this.autoId = 0, required this.name });
+> }
+> ```
+>
+> If `autoId` is missing:
+>
+> - The database cannot assign a generated ID back into the object
+> - Update / Delete operations may not function correctly
+> - Querying by ID becomes impossible
+
+`TDBox<T>` is a typed data container created automatically when you call `db.setAdapter<T>()`.
+It provides an easy, safe CRUD interface on top of the TDB core.
+
+---
+
+### 🔧 How Box Works Internally
+
+A Box is connected to:
+
+- the database instance (`TDB`)
+- the registered adapter for type `T`
+
+When you call:
+
+```dart
+final box = db.getBox<User>();
+```
+
+TDB internally maps:
+
+- adapter → serialization
+- box → CRUD access by type
+
+Each Box only accesses records that match its adapter's unique field ID.
+
+---
+
+(Similar to Hive)
+TDB provides a simple Box API through `TDBox<T>`.
+A Box is automatically created when you call `db.setAdapter<T>()`.
+
+### Creating and Using a Box
 
 ```dart
 final userBox = db.getBox<User>();
