@@ -86,14 +86,38 @@
 
 </dd>
 
-        <dt id="getAllFiles" class="property">
-  <span class="name"><a href="../hb_db/HBDB/getAllFiles.html">getAllFiles</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter">DBFEntry</span>&gt;</span></span>
+        <dt id="getAllFilesEntries" class="property">
+  <span class="name"><a href="../hb_db/HBDB/getAllFilesEntries.html">getAllFilesEntries</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../hb_db/DBFEntry-class.html">DBFEntry</a></span>&gt;</span></span>
   
 
 </dt>
 <dd>
   get All Files
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="getConfig" class="property">
+  <span class="name"><a href="../hb_db/HBDB/getConfig.html">getConfig</a></span>
+  <span class="signature">&#8594; DBConfig</span>
+  
+
+</dt>
+<dd>
+  Database Config
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="getDBEntries" class="property">
+  <span class="name"><a href="../hb_db/HBDB/getDBEntries.html">getDBEntries</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../hb_db/DBEntry-class.html">DBEntry</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  get All Database Entries
   <div class="features"><span class="feature">no setter</span></div>
 
 </dd>
@@ -122,6 +146,18 @@
 
 </dd>
 
+        <dt id="getUniqueFieldIdList" class="property">
+  <span class="name"><a href="../hb_db/HBDB/getUniqueFieldIdList.html">getUniqueFieldIdList</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  -- Source ---
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
         <dt id="hashCode" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
@@ -142,6 +178,18 @@
 </dt>
 <dd>
   Database is Opened
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="isExistsCover" class="property">
+  <span class="name"><a href="../hb_db/HBDB/isExistsCover.html">isExistsCover</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  
+
+</dt>
+<dd>
+  --- Cover Entry ----
   <div class="features"><span class="feature">no setter</span></div>
 
 </dd>
@@ -194,7 +242,7 @@
 </dd>
 
         <dt id="addFile" class="callable">
-  <span class="name"><a href="../hb_db/HBDB/addFile.html">addFile</a></span><span class="signature">(<wbr><span class="parameter" id="addFile-param-file"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-io/File-class.html">File</a></span> <span class="parameter-name">file</span>, {</span><span class="parameter" id="addFile-param-isCompressed"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isCompressed</span> = <span class="default-value">true</span>, </span><span class="parameter" id="addFile-param-onProgress"><span class="type-annotation">OnDBProgressCallback?</span> <span class="parameter-name">onProgress</span></span>})
+  <span class="name"><a href="../hb_db/HBDB/addFile.html">addFile</a></span><span class="signature">(<wbr><span class="parameter" id="addFile-param-file"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-io/File-class.html">File</a></span> <span class="parameter-name">file</span>, {</span><span class="parameter" id="addFile-param-isCompressed"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isCompressed</span> = <span class="default-value">true</span>, </span><span class="parameter" id="addFile-param-onProgress"><span class="type-annotation"><a href="../hb_db/OnDBProgressCallback.html">OnDBProgressCallback</a>?</span> <span class="parameter-name">onProgress</span></span>})
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
@@ -207,7 +255,7 @@
 </dd>
 
         <dt id="addListener" class="callable">
-  <span class="name"><a href="../hb_db/HBDB/addListener.html">addListener</a></span><span class="signature">(<wbr><span class="parameter" id="addListener-param-listener"><span class="type-annotation">HBListener</span> <span class="parameter-name">listener</span></span>)
+  <span class="name"><a href="../hb_db/HBDB/addListener.html">addListener</a></span><span class="signature">(<wbr><span class="parameter" id="addListener-param-listener"><span class="type-annotation"><a href="../hb_db/HBListener-mixin.html">HBListener</a></span> <span class="parameter-name">listener</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -220,7 +268,7 @@
 </dd>
 
         <dt id="addMultiFile" class="callable">
-  <span class="name"><a href="../hb_db/HBDB/addMultiFile.html">addMultiFile</a></span><span class="signature">(<wbr><span class="parameter" id="addMultiFile-param-files"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-io/File-class.html">File</a></span>&gt;</span></span> <span class="parameter-name">files</span>, {</span><span class="parameter" id="addMultiFile-param-isCompressed"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isCompressed</span> = <span class="default-value">true</span>, </span><span class="parameter" id="addMultiFile-param-onProgress"><span class="type-annotation">OnDBProgressCallback?</span> <span class="parameter-name">onProgress</span></span>})
+  <span class="name"><a href="../hb_db/HBDB/addMultiFile.html">addMultiFile</a></span><span class="signature">(<wbr><span class="parameter" id="addMultiFile-param-files"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-io/File-class.html">File</a></span>&gt;</span></span> <span class="parameter-name">files</span>, {</span><span class="parameter" id="addMultiFile-param-isCompressed"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isCompressed</span> = <span class="default-value">true</span>, </span><span class="parameter" id="addMultiFile-param-onProgress"><span class="type-annotation"><a href="../hb_db/OnDBProgressCallback.html">OnDBProgressCallback</a>?</span> <span class="parameter-name">onProgress</span></span>})
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
@@ -259,7 +307,7 @@
 </dd>
 
         <dt id="compact" class="callable">
-  <span class="name"><a href="../hb_db/HBDB/compact.html">compact</a></span><span class="signature">(<wbr>{<span class="parameter" id="compact-param-createdBackupDB"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">createdBackupDB</span> = <span class="default-value">true</span>, </span><span class="parameter" id="compact-param-onProgress"><span class="type-annotation">OnDBProgressCallback?</span> <span class="parameter-name">onProgress</span></span>})
+  <span class="name"><a href="../hb_db/HBDB/compact.html">compact</a></span><span class="signature">(<wbr>{<span class="parameter" id="compact-param-createdBackupDB"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">createdBackupDB</span> = <span class="default-value">true</span>, </span><span class="parameter" id="compact-param-onProgress"><span class="type-annotation"><a href="../hb_db/OnDBProgressCallback.html">OnDBProgressCallback</a>?</span> <span class="parameter-name">onProgress</span></span>})
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
@@ -311,7 +359,7 @@
 </dd>
 
         <dt id="deleteFile" class="callable">
-  <span class="name"><a href="../hb_db/HBDB/deleteFile.html">deleteFile</a></span><span class="signature">(<wbr><span class="parameter" id="deleteFile-param-entry"><span class="type-annotation">DBFEntry</span> <span class="parameter-name">entry</span></span>)
+  <span class="name"><a href="../hb_db/HBDB/deleteFile.html">deleteFile</a></span><span class="signature">(<wbr><span class="parameter" id="deleteFile-param-entry"><span class="type-annotation"><a href="../hb_db/DBFEntry-class.html">DBFEntry</a></span> <span class="parameter-name">entry</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
   </span>
   
@@ -324,7 +372,7 @@
 </dd>
 
         <dt id="deleteMultiFile" class="callable">
-  <span class="name"><a href="../hb_db/HBDB/deleteMultiFile.html">deleteMultiFile</a></span><span class="signature">(<wbr><span class="parameter" id="deleteMultiFile-param-entries"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter">DBFEntry</span>&gt;</span></span> <span class="parameter-name">entries</span></span>)
+  <span class="name"><a href="../hb_db/HBDB/deleteMultiFile.html">deleteMultiFile</a></span><span class="signature">(<wbr><span class="parameter" id="deleteMultiFile-param-entries"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../hb_db/DBFEntry-class.html">DBFEntry</a></span>&gt;</span></span> <span class="parameter-name">entries</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
@@ -337,7 +385,7 @@
 </dd>
 
         <dt id="extractFile" class="callable">
-  <span class="name"><a href="../hb_db/HBDB/extractFile.html">extractFile</a></span><span class="signature">(<wbr><span class="parameter" id="extractFile-param-outpath"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">outpath</span>, </span><span class="parameter" id="extractFile-param-entry"><span class="type-annotation">DBFEntry</span> <span class="parameter-name">entry</span>, {</span><span class="parameter" id="extractFile-param-onProgress"><span class="type-annotation">OnDBProgressCallback?</span> <span class="parameter-name">onProgress</span></span>})
+  <span class="name"><a href="../hb_db/HBDB/extractFile.html">extractFile</a></span><span class="signature">(<wbr><span class="parameter" id="extractFile-param-outpath"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">outpath</span>, </span><span class="parameter" id="extractFile-param-entry"><span class="type-annotation"><a href="../hb_db/DBFEntry-class.html">DBFEntry</a></span> <span class="parameter-name">entry</span>, {</span><span class="parameter" id="extractFile-param-onProgress"><span class="type-annotation"><a href="../hb_db/OnDBProgressCallback.html">OnDBProgressCallback</a>?</span> <span class="parameter-name">onProgress</span></span>})
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
   </span>
   
@@ -377,7 +425,7 @@
 
         <dt id="getBox" class="callable">
   <span class="name"><a href="../hb_db/HBDB/getBox.html">getBox</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; HBBox<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="../hb_db/HBBox-class.html">HBBox</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span>
   </span>
   
 
@@ -428,7 +476,7 @@
 </dd>
 
         <dt id="notifyListener" class="callable">
-  <span class="name"><a href="../hb_db/HBDB/notifyListener.html">notifyListener</a></span><span class="signature">(<wbr><span class="parameter" id="notifyListener-param-type"><span class="type-annotation">HBListenerType</span> <span class="parameter-name">type</span>, {</span><span class="parameter" id="notifyListener-param-adapterFieldId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">adapterFieldId</span>, </span><span class="parameter" id="notifyListener-param-autoId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">autoId</span></span>})
+  <span class="name"><a href="../hb_db/HBDB/notifyListener.html">notifyListener</a></span><span class="signature">(<wbr><span class="parameter" id="notifyListener-param-type"><span class="type-annotation"><a href="../hb_db/HBListenerType.html">HBListenerType</a></span> <span class="parameter-name">type</span>, {</span><span class="parameter" id="notifyListener-param-adapterFieldId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">adapterFieldId</span>, </span><span class="parameter" id="notifyListener-param-autoId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">autoId</span></span>})
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -479,8 +527,60 @@
 
 </dd>
 
+        <dt id="readAllSource" class="callable">
+  <span class="name"><a href="../hb_db/HBDB/readAllSource.html">readAllSource</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Read All Source
+  
+
+</dd>
+
+        <dt id="readAllSourceStream" class="callable">
+  <span class="name"><a href="../hb_db/HBDB/readAllSourceStream.html">readAllSourceStream</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Read All Source Stream
+  
+
+</dd>
+
+        <dt id="readAllSourceStreamByFieldId" class="callable">
+  <span class="name"><a href="../hb_db/HBDB/readAllSourceStreamByFieldId.html">readAllSourceStreamByFieldId</a></span><span class="signature">(<wbr><span class="parameter" id="readAllSourceStreamByFieldId-param-uniqueFieldId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">uniqueFieldId</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Read All Source By Field Id Stream
+  
+
+</dd>
+
+        <dt id="readSourceByFieldId" class="callable">
+  <span class="name"><a href="../hb_db/HBDB/readSourceByFieldId.html">readSourceByFieldId</a></span><span class="signature">(<wbr><span class="parameter" id="readSourceByFieldId-param-fieldId"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">fieldId</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Read All Source By Field Id
+  
+
+</dd>
+
         <dt id="removeListener" class="callable">
-  <span class="name"><a href="../hb_db/HBDB/removeListener.html">removeListener</a></span><span class="signature">(<wbr><span class="parameter" id="removeListener-param-listener"><span class="type-annotation">HBListener</span> <span class="parameter-name">listener</span></span>)
+  <span class="name"><a href="../hb_db/HBDB/removeListener.html">removeListener</a></span><span class="signature">(<wbr><span class="parameter" id="removeListener-param-listener"><span class="type-annotation"><a href="../hb_db/HBListener-mixin.html">HBListener</a></span> <span class="parameter-name">listener</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -506,7 +606,7 @@
 </dd>
 
         <dt id="setAdapter" class="callable">
-  <span class="name"><a href="../hb_db/HBDB/setAdapter.html">setAdapter</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="setAdapter-param-adapter"><span class="type-annotation">HBAdapter<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">adapter</span></span>)
+  <span class="name"><a href="../hb_db/HBDB/setAdapter.html">setAdapter</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="setAdapter-param-adapter"><span class="type-annotation"><a href="../hb_db/HBAdapter-class.html">HBAdapter</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">adapter</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -526,7 +626,7 @@
 
 </dt>
 <dd>
-  --- Cover Entry ----
+  Set Cover Entry
   
 
 </dd>
@@ -585,6 +685,32 @@
   <section class="summary offset-anchor" id="static-methods">
     <h2>Static Methods</h2>
     <dl class="callables">
+        <dt id="checkDBTypeFromDBFile" class="callable">
+  <span class="name"><a href="../hb_db/HBDB/checkDBTypeFromDBFile.html">checkDBTypeFromDBFile</a></span><span class="signature">(<wbr><span class="parameter" id="checkDBTypeFromDBFile-param-dbPath"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">dbPath</span>, </span><span class="parameter" id="checkDBTypeFromDBFile-param-dbType"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">dbType</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Check DB Type
+  
+
+</dd>
+
+        <dt id="extractCoverToFile" class="callable">
+  <span class="name"><a href="../hb_db/HBDB/extractCoverToFile.html">extractCoverToFile</a></span><span class="signature">(<wbr><span class="parameter" id="extractCoverToFile-param-dbFile"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">dbFile</span>, {</span><span class="parameter" id="extractCoverToFile-param-savePath"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">savePath</span>, </span><span class="parameter" id="extractCoverToFile-param-override"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">override</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Save Image Data Without Opening the Database
+  
+
+</dd>
+
         <dt id="getInstance" class="callable">
   <span class="name"><a href="../hb_db/HBDB/getInstance.html">getInstance</a></span><span class="signature">(<wbr>)
     <span class="returntype parameter">&#8594; <a href="../hb_db/HBDB-class.html">HBDB</a></span>
@@ -594,6 +720,45 @@
 </dt>
 <dd>
   Singleton Database
+  
+
+</dd>
+
+        <dt id="readCoverFromDBFile" class="callable">
+  <span class="name"><a href="../hb_db/HBDB/readCoverFromDBFile.html">readCoverFromDBFile</a></span><span class="signature">(<wbr><span class="parameter" id="readCoverFromDBFile-param-dbFile"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">dbFile</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-typed_data/Uint8List-class.html">Uint8List</a>?</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Reads the cover image directly from the database file.
+  
+
+</dd>
+
+        <dt id="readFileEntriesFromDBFile" class="callable">
+  <span class="name"><a href="../hb_db/HBDB/readFileEntriesFromDBFile.html">readFileEntriesFromDBFile</a></span><span class="signature">(<wbr><span class="parameter" id="readFileEntriesFromDBFile-param-dbPath"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">dbPath</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../hb_db/DBFEntry-class.html">DBFEntry</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  --- Static ---
+  
+
+</dd>
+
+        <dt id="readMetaFromDBFile" class="callable">
+  <span class="name"><a href="../hb_db/HBDB/readMetaFromDBFile.html">readMetaFromDBFile</a></span><span class="signature">(<wbr><span class="parameter" id="readMetaFromDBFile-param-dbPath"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">dbPath</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">DBMeta?</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  --- Static ---
   
 
 </dd>
@@ -625,7 +790,7 @@
 <footer>
   <span class="no-break">
     hb_db
-      1.0.0
+      1.3.0
   </span>
   
 </footer>

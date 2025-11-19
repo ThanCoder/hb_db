@@ -72,15 +72,26 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; open(String path, {DBConfig? config}) async {
+  if (isDatabaseOpened) return;
   _config = config ?? DBConfig.defaultSetting();
 
   dbFile = File(path);
-  _dbLock = DBLock(dbFile: dbFile, lockFile: File(&#39;$path.lock&#39;));
+  _dbLock = DBLock(
+    dbFile: dbFile,
+    lockFile: File(&#39;$path.lock&#39;),
+    localDBLockFile: _config.localDBLockFile,
+  );
   &#47;&#47; db raf
   _dbRaf = await dbFile.open(mode: FileMode.writeOnlyAppend);
   &#47;&#47;db မရှိရင်
   if (_dbRaf.lengthSync() == 0) {
-    await _dbRaf.writeFrom(utf8.encode(dbMagic));
+    &#47;&#47; write header
+    await BinaryRW.writeHeader(
+      _dbRaf,
+      magic: dbMagic,
+      version: _config.version,
+      type: _config.type,
+    );
     await _dbLock.save();
   }
   &#47;&#47; read config
@@ -113,7 +124,7 @@
 <footer>
   <span class="no-break">
     hb_db
-      1.0.0
+      1.3.0
   </span>
   
 </footer>
