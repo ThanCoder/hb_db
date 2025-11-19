@@ -51,6 +51,18 @@ class DBConfig {
     required this.type,
   });
 
+  ///
+  /// ### Default Setting
+  ///```dart
+  /// deletedSizeLimit: 5 * 1024 * 1024, // 5MB,
+  /// deletedRatioLimit: 0.20,
+  /// deleteOpsLimit: 200,
+  /// isAutoCompact: true,
+  /// localDBLockFile: true,
+  /// version: 1,
+  /// type: 'GENL',
+  ///```
+  ///
   factory DBConfig.defaultSetting() {
     return DBConfig(
       deletedSizeLimit: 5 * 1024 * 1024, // 5MB,

@@ -1,8 +1,13 @@
-# 1.2.2
+# 1.3.0
+
+- Added `HBDB.HBDB.checkDBTypeFromDBFile`
+- Added `HBDB.readMetaFromDBFile`
+
+## 1.2.2
 
 - Update `Readme.md`
 
-# 1.2.1
+## 1.2.1
 
 - Fixed `HBDB.readFileEntriesFromDBFile` Not Working.
 - Fixed `db.getAllFilesEntries` Not Working.

@@ -28,9 +28,8 @@ void main() async {
     final db = HBDB.getInstance();
     await db.open(
       '/home/than/projects/plugins/hb_db/dist/၂၁ရာစုအင်မော်တယ် ဖေဖေ.db',
-      config: DBConfig.defaultSetting()
+      config: DBConfig.defaultSetting(),
     );
-
     // db.setAdapter<User>(UserAdapter());
     // db.setAdapter<Car>(CarAdapter());
 

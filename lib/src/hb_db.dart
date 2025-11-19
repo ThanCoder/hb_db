@@ -3,9 +3,7 @@ import 'dart:typed_data';
 
 import 'package:hb_db/src/index.dart';
 import 'package:hb_db/src/types/db_config.dart';
-import 'package:hb_db/src/core/hb_box.dart';
-import 'package:hb_db/src/core/hbdb_listener.dart';
-import 'package:hb_db/src/core/hb_adapter.dart';
+import 'package:hb_db/src/types/db_meta.dart';
 import 'package:hb_db/src/writer_reader/bf_reader.dart';
 import 'package:hb_db/src/writer_reader/binary_rw.dart';
 import 'package:hb_db/src/writer_reader/c_writer.dart';
@@ -14,8 +12,6 @@ import 'package:hb_db/src/writer_reader/bf_writer.dart';
 import 'package:hb_db/src/writer_reader/db_rebuild.dart';
 import 'package:hb_db/src/writer_reader/db_writer.dart';
 import 'package:hb_db/src/core/db_lock.dart';
-import 'package:hb_db/src/types/db_meta_type.dart';
-import 'package:hb_db/src/types/dbf_entry.dart';
 
 class HBDB {
   ///
@@ -598,6 +594,7 @@ class HBDB {
     notifyListener(HBListenerType.deletedFile);
   }
 
+  ///
   /// --- Static ---
   ///
 
@@ -753,7 +750,37 @@ class HBDB {
   ///
   /// --- Static ---
   ///
-  // Future<DBMeta?> getMetaFromDBFile(String dbPath) async {
-  //   return null;
-  // }
+
+  ///
+  /// ### Read Meta Config
+  ///
+  static Future<DBMeta?> readMetaFromDBFile(String dbPath) async {
+    try {
+      final raf = await File(dbPath).open();
+      final (magic, version, type) = await BinaryRW.readHeader(raf);
+      await raf.close();
+      return DBMeta(magic: magic, version: version, type: type);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  ///
+  /// ### Check DB Type
+  ///
+  /// `dbType` length: expected `4 bytes` or `4 count`
+  ///
+  static Future<bool> checkDBTypeFromDBFile(
+    String dbPath,
+    String dbType,
+  ) async {
+    if (dbType.length != 4) {
+      throw Exception(
+        'Invalid DB type length: expected 4 bytes, got ${dbType.length}.',
+      );
+    }
+    final meta = await readMetaFromDBFile(dbPath);
+    if (meta == null) return false;
+    return meta.type == dbType;
+  }
 }
